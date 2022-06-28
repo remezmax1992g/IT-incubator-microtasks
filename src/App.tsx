@@ -71,14 +71,24 @@ function App() {
         {banknote: "dollar", nominal: 50, number: "x1234567890"},
         {banknote: "ruble", nominal: 50, number: "v1234567890"},
     ])
-    const [filter, setFilter] = useState("all")
-    let currentMoney = money;
-    if(filter === "dollar"){
+    const [filter, setFilter] = useState<FilterType>()
+    let taskForMoney;
+    switch (filter){
+        case "dollar":
+            taskForMoney = money.filter(filteredMoney => filteredMoney.banknote === "dollar")
+            break;
+        case "ruble":
+            taskForMoney = money.filter(filteredMoney => filteredMoney.banknote === "ruble")
+            break;
+        default:
+            taskForMoney = money;
+    }
+   /* if(filter === "dollar"){
         currentMoney = money.filter((filteredMoney) => filteredMoney.banknote==="dollar")
     }
     if(filter === "ruble"){
         currentMoney = money.filter((filteredMoney) => filteredMoney.banknote==="ruble")
-    }
+    }*/
     const onClickFilterHandler = (nameButton: FilterType) => {
        setFilter(nameButton);
     }
@@ -100,7 +110,7 @@ function App() {
                 <button onClick={onClickHandler1}>number</button>
                 <button onClick={onClickHandler2}>0</button>
             </div>
-            <NewComponent1 currentMoney={currentMoney} onClickFilterHandler={onClickFilterHandler}/>
+            <NewComponent1 currentMoney={taskForMoney} onClickFilterHandler={onClickFilterHandler}/>
 
         </div>
     );
